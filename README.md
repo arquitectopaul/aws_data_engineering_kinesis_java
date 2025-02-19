@@ -58,18 +58,20 @@ Listar los objetos S3
 ```
 aws s3 ls s3://arquitectopaul123 --recursive --human-readable --summarize
 ```
-   <img src="S3.png" alt="s3" width="65%"/>
+   <img src="S3.png" alt="S3" width="65%"/>
 
 ## Cleanup
 
 ```
-aws cloudformation delete-stack --stack-name kds-pattern
+aws cloudformation delete-stack --stack-name kinesis-pattern
 
 aws s3 rm s3://arquitectopaul123 --recursive
 
 aws s3 rb s3://arquitectopaul123
 ```
 ----
+
+   <img src="delete.png" alt="delete" width="65%"/>
 
 ## Lenguaje de programación:
 Escrito con Java 21.
