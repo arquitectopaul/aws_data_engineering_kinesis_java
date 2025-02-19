@@ -17,10 +17,12 @@ Important: esta aplicación utiliza varios servicios de AWS y hay costos asociad
 
 ## Deployment Instructions
 
-1. Compilar y empaquetar el código java
+1. Compilar y empaquetar el código java utilizando Maven
     ``` 
     mvn clean package
     ```
+   <img src="maven.png" alt="maven" width="50%"/>
+
 1. Crear un bucket S3 donde el código fuente estará almacenado
     ```
     aws s3 mb s3://arquitectopaul123
@@ -29,10 +31,15 @@ Important: esta aplicación utiliza varios servicios de AWS y hay costos asociad
     ```
     aws s3 cp target/sourceCode.zip s3://arquitectopaul123
     ```
+   <img src="maven3.png" alt="maven3" width="50%"/>
+
 1. Desplegar la pila CloudFormation
     ```
     sam deploy --s3-bucket arquitectopaul123 --stack-name kinesis-pattern --capabilities CAPABILITY_IAM
     ```
+   <img src="sam.png" alt="sam" width="50%"/>
+   
+   <img src="sam2.png" alt="sam2" width="50%"/>
 
 ## Funcionamiento
 
@@ -42,16 +49,16 @@ Los registros capturados por Kinesis Data Streams son ingeridos por Kinesis Data
 
 Colocar un nuevo registro en Kinesis Data Streams
 ```
-aws kinesis put-record \
-    --stream-name kds-data \
-    --data sampledatarecord \
-    --partition-key samplepartitionkey
+aws kinesis put-record --stream-name kds-data --data sampledatarecord --partition-key samplepartitionkey
 ```
+
+   <img src="kinesis.png" alt="kinesis" width="50%"/>
 
 Listar los objetos S3
 ```
-aws s3 ls s3://deliverybucket-8938249287387 --recursive --human-readable --summarize
+aws s3 ls s3://arquitectopaul123 --recursive --human-readable --summarize
 ```
+   <img src="s3.png" alt="s3" width="50%"/>
 
 ## Cleanup
 
