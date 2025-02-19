@@ -21,7 +21,7 @@ Important: esta aplicación utiliza varios servicios de AWS y hay costos asociad
     ``` 
     mvn clean package
     ```
-   <img src="maven.png" alt="maven" width="50%"/>
+   <img src="maven.png" alt="maven" width="65%"/>
 
 1. Crear un bucket S3 donde el código fuente estará almacenado
     ```
@@ -31,15 +31,15 @@ Important: esta aplicación utiliza varios servicios de AWS y hay costos asociad
     ```
     aws s3 cp target/sourceCode.zip s3://arquitectopaul123
     ```
-   <img src="maven3.png" alt="maven3" width="50%"/>
+   <img src="maven3.png" alt="maven3" width="65%"/>
 
 1. Desplegar la pila CloudFormation
     ```
     sam deploy --s3-bucket arquitectopaul123 --stack-name kinesis-pattern --capabilities CAPABILITY_IAM
     ```
-   <img src="sam.png" alt="sam" width="50%"/>
+   <img src="sam.png" alt="sam" width="65%"/>
    
-   <img src="sam2.png" alt="sam2" width="50%"/>
+   <img src="sam2.png" alt="sam2" width="65%"/>
 
 ## Funcionamiento
 
@@ -52,22 +52,22 @@ Colocar un nuevo registro en Kinesis Data Streams
 aws kinesis put-record --stream-name kds-data --data sampledatarecord --partition-key samplepartitionkey
 ```
 
-   <img src="kinesis.png" alt="kinesis" width="50%"/>
+   <img src="kinesis.png" alt="kinesis" width="65%"/>
 
 Listar los objetos S3
 ```
 aws s3 ls s3://arquitectopaul123 --recursive --human-readable --summarize
 ```
-   <img src="s3.png" alt="s3" width="50%"/>
+   <img src="S3.png" alt="s3" width="65%"/>
 
 ## Cleanup
 
 ```
 aws cloudformation delete-stack --stack-name kds-pattern
 
-aws s3 rm s3://rtgvhgc8279238sdcd --recursive
+aws s3 rm s3://arquitectopaul123 --recursive
 
-aws s3 rb s3://rtgvhgc8279238sdcd
+aws s3 rb s3://arquitectopaul123
 ```
 ----
 
