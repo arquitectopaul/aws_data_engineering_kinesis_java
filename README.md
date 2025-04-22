@@ -4,7 +4,37 @@
 <img src="./images/topology.png" alt="topology" width="65%"/>
 
 La plantilla AWS SAM despliega un AWS Kinesis Data Streams, un AWS Kinesis Data Firehose y un bucket S3.   
-Este es un projecto Java.
+Este es un projecto Java. 
+Si solo necesitas mover datos a S3 sin lógica personalizada → podrías usar Kinesis Firehose sin Java.
+Pero si necesitas lógica de negocio, validaciones, filtros, transformaciones complejas… ahí entra Java.
+
+Java se usa aquí para crear productores y consumidores de datos. Kinesis es como un "tubería de eventos", pero tú necesitas escribir:
+
+🧪 1. Productor Java (Produce datos hacia Kinesis)
+Un programa Java que genera eventos (por ejemplo, sensores, logs, datos aleatorios, etc.) y los envía a un stream de Kinesis usando el SDK de AWS.
+
+PutRecordRequest request = new PutRecordRequest()
+    .withStreamName("mi-stream")
+    .withData(ByteBuffer.wrap("mensaje".getBytes()))
+    .withPartitionKey("123");
+kinesisClient.putRecord(request);
+🔧 Este código es necesario porque Kinesis no genera datos por sí mismo. Tú decides qué enviar y cómo.
+
+🧠 2. Consumidor Java (Lee y procesa datos del stream)
+Otro programa (o Lambda escrita en Java) consume los datos desde el stream, y puede:
+Procesarlos (ej: validación, transformación, enriquecimiento)
+Guardarlos en base de datos, Elasticsearch, S3, etc.
+Generar alertas, logs, analítica, etc.
+
+RecordProcessor.processRecords(List<Record> records) {
+  for (Record record : records) {
+    String payload = new String(record.getData().array());
+    // Lógica de negocio aquí
+  }
+}
+
+
+![image](https://github.com/user-attachments/assets/a1ebdf2d-391b-4e40-a778-065258344f67)
 
 ## Costos
 Important: esta aplicación utiliza varios servicios de AWS y hay costos asociados con estos servicios después del uso de la capa gratuita - puede consultar en [AWS Pricing page](https://aws.amazon.com/pricing/) for details. para conocer los costos con mayor detalle. Usted es responsable de los costos de AWS en los que se incurra. No hay ninguna garantía implícita en este ejemplo.
